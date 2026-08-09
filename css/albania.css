@@ -46,6 +46,9 @@ html {
 #albania,
 #collaboration,
 #documents,
+#strategic-brief,
+#eit-pitch,
+#evidence,
 #private-briefing,
 .founder-note,
 .frag-section.manifesto,
@@ -55,40 +58,31 @@ html {
 }
 
 .site-header__inner {
-  max-width: 1280px;
+  max-width: 1420px;
   margin: 0 auto;
   min-height: var(--nav-h);
-  padding: 14px var(--page-pad-x);
+  padding: 12px var(--page-pad-x);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.brand-mark {
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
+  justify-content: center;
+  gap: 10px;
 }
 
 .site-nav {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   flex: 1;
-  gap: 10px;
+  gap: 6px;
   min-width: 0;
 }
 
 .site-nav__cluster {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 10px;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 6px;
   min-width: 0;
 }
 
@@ -104,17 +98,17 @@ html {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 48px;
-  padding: 0 24px;
+  gap: 6px;
+  min-height: 46px;
+  padding: 0 14px;
   border-radius: 999px;
   border: 1px solid var(--bubble-border);
   text-decoration: none;
   white-space: nowrap;
   color: #f2f8ff;
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 650;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   cursor: pointer;
   background:
@@ -1593,19 +1587,23 @@ html {
 
 /* ---------- Responsive ---------- */
 
-/* Laptop: tighten capsule geometry without shrinking labels to unreadability */
+/* Laptop: denser capsules; allow wrap only when single-row cannot hold */
 @media (max-width: 1200px) {
   .nav-bubble {
-    min-height: 46px;
-    padding: 0 18px;
-    gap: 7px;
-    font-size: 12px;
-    letter-spacing: 0.08em;
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
   }
 
   .site-nav,
   .site-nav__cluster {
-    gap: 8px;
+    gap: 6px;
+  }
+
+  .site-nav__cluster {
+    flex-wrap: wrap;
   }
 
   .nav-bubble--quiet {
@@ -1616,24 +1614,21 @@ html {
 /* Tablet: allow wrap / denser spacing */
 @media (max-width: 1024px) and (min-width: 901px) {
   .site-header__inner {
-    align-items: flex-start;
-  }
-
-  .brand-mark {
-    padding-top: 16px;
+    align-items: center;
   }
 
   .site-nav {
-    justify-content: flex-end;
+    justify-content: center;
   }
 
   .site-nav__cluster {
-    justify-content: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .nav-bubble {
-    min-height: 46px;
-    padding: 0 16px;
+    min-height: 44px;
+    padding: 0 12px;
   }
 
   .nav-bubble--quiet {
@@ -1661,6 +1656,7 @@ html {
   .site-header__inner {
     flex-wrap: wrap;
     position: relative;
+    justify-content: flex-end;
   }
 
   .nav-bubble--menu {
@@ -1808,11 +1804,6 @@ html {
 }
 
 @media (max-width: 480px) {
-  .brand-mark {
-    font-size: 10px;
-    letter-spacing: 0.14em;
-  }
-
   .logo-panel__frame {
     aspect-ratio: 3.2 / 1;
     max-height: 112px;
