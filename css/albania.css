@@ -4,6 +4,12 @@
 :root {
   --nav-h: 88px;
   --nav-flood: 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* Measured sticky header = 88px; + buffer for capsule glow / safe reading zone */
+  --albania-sticky-nav-clearance: calc(var(--nav-h) + 28px);
+}
+
+html {
+  scroll-padding-top: var(--albania-sticky-nav-clearance);
 }
 
 /* ---------- Top navigation — floating glass capsules ---------- */
@@ -12,8 +18,40 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: transparent;
+  /* Structural safe-zone: fully occlude readable content under sticky nav.
+     Capsule / flood / glow language of bubbles is unchanged. */
+  background: #000;
   border-bottom: 0;
+  box-shadow: 0 18px 28px -18px rgba(0, 0, 0, 0.9);
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 28px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+#overview,
+#elisence,
+#albania,
+#collaboration,
+#documents,
+#private-briefing,
+.founder-note,
+.frag-section.manifesto,
+.albania-manifesto,
+.albania-strategy {
+  scroll-margin-top: var(--albania-sticky-nav-clearance);
 }
 
 .site-header__inner {
@@ -605,7 +643,7 @@
 
 .founder-note {
   position: relative;
-  scroll-margin-top: calc(var(--nav-h) + 16px);
+  scroll-margin-top: var(--albania-sticky-nav-clearance);
   padding: 0 var(--page-pad-x) 0;
 }
 
@@ -814,13 +852,13 @@
 .frag-section.manifesto,
 .albania-manifesto {
   position: relative;
-  scroll-margin-top: calc(var(--nav-h) + 16px);
+  scroll-margin-top: var(--albania-sticky-nav-clearance);
   padding: 44px var(--page-pad-x) clamp(72px, 9vh, 120px);
 }
 
 .frag-section {
   position: relative;
-  scroll-margin-top: calc(var(--nav-h) + 16px);
+  scroll-margin-top: var(--albania-sticky-nav-clearance);
   padding: 44px var(--page-pad-x) clamp(72px, 9vh, 120px);
 }
 
@@ -1078,6 +1116,420 @@
 .frag-section.manifesto.is-visible .manifesto-panel {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ---------- Albania strategic transformation chapter ---------- */
+
+.albania-strategy {
+  position: relative;
+  scroll-margin-top: var(--albania-sticky-nav-clearance);
+  margin-top: calc(-1 * clamp(30px, 5vh, 72px));
+  padding: 0 var(--page-pad-x) clamp(88px, 11vh, 144px);
+}
+
+.albania-strategy__inner {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(58px, 7vw, 94px);
+}
+
+.albania-strategy__header,
+.albania-strategy__section,
+.strategy-pillars,
+.strategy-pathways {
+  min-width: 0;
+}
+
+.albania-strategy__section,
+.strategy-pillars,
+.strategy-pathways {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3.4vw, 46px);
+}
+
+.albania-strategy__section-title {
+  width: min(94%, 1050px);
+  margin: 0 0 clamp(4px, 0.8vw, 12px);
+  font-size: clamp(25px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  color: #eaf7ff;
+  text-wrap: balance;
+  text-shadow:
+    0 0 24px rgba(91, 214, 255, 0.22),
+    0 0 52px rgba(0, 120, 255, 0.12);
+}
+
+.albania-strategy__section--climax .albania-strategy__section-title {
+  font-size: clamp(30px, 3.7vw, 48px);
+  color: #bdefff;
+  text-shadow:
+    0 0 26px rgba(113, 228, 255, 0.34),
+    0 0 64px rgba(0, 131, 255, 0.2);
+}
+
+.strategy-panel {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  margin: 0;
+  padding: clamp(27px, 3.2vw, 42px) clamp(23px, 3.15vw, 40px);
+  border: 1px solid rgba(100, 194, 255, 0.28);
+  border-radius: clamp(21px, 2vw, 27px);
+  background:
+    radial-gradient(circle at 8% 4%, rgba(25, 126, 219, 0.12), transparent 34%),
+    linear-gradient(157deg, rgba(13, 36, 72, 0.5), rgba(4, 14, 33, 0.8) 56%, rgba(2, 7, 18, 0.91));
+  box-shadow:
+    inset 0 1px 0 rgba(202, 239, 255, 0.09),
+    inset 0 0 30px rgba(0, 89, 177, 0.07),
+    0 17px 38px rgba(0, 0, 0, 0.3),
+    0 30px 58px -18px rgba(0, 135, 255, 0.28);
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
+}
+
+.strategy-panel::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 8%;
+  right: 8%;
+  bottom: -36px;
+  height: 74px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(142, 241, 255, 0.86) 0%,
+    rgba(43, 201, 255, 0.51) 29%,
+    rgba(0, 139, 255, 0.27) 53%,
+    rgba(0, 82, 213, 0.1) 72%,
+    transparent 85%
+  );
+  filter: blur(19px);
+  opacity: 0.9;
+}
+
+.strategy-panel--left { align-self: flex-start; }
+.strategy-panel--right { align-self: flex-end; }
+.strategy-panel--balanced { align-self: center; }
+
+.strategy-panel h3 {
+  margin: 0 0 19px;
+  font-size: clamp(18px, 1.75vw, 24px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.045em;
+  color: #bcecff;
+  text-wrap: balance;
+}
+
+.strategy-panel__body {
+  display: grid;
+  gap: 0.82em;
+  max-width: 69ch;
+  font-size: clamp(16.5px, 1.3vw, 18px);
+  font-weight: 450;
+  line-height: 1.68;
+  color: #d0e2f3;
+  overflow-wrap: anywhere;
+}
+
+.strategy-panel__body p,
+.strategy-panel__signature p,
+.strategy-sources li {
+  margin: 0;
+}
+
+.strategy-panel--master {
+  width: 94%;
+  padding: clamp(36px, 5vw, 66px) clamp(27px, 5vw, 64px);
+  border-color: rgba(125, 218, 255, 0.38);
+  background:
+    radial-gradient(circle at 13% 18%, rgba(31, 151, 244, 0.2), transparent 37%),
+    linear-gradient(151deg, rgba(15, 48, 91, 0.64), rgba(4, 17, 39, 0.88) 60%, rgba(1, 6, 17, 0.95));
+  box-shadow:
+    inset 0 1px 0 rgba(215, 246, 255, 0.12),
+    0 22px 50px rgba(0, 0, 0, 0.34),
+    0 40px 75px -16px rgba(0, 154, 255, 0.34);
+}
+
+.strategy-panel--master::after {
+  left: 5%;
+  right: 5%;
+  bottom: -43px;
+  height: 88px;
+  opacity: 1;
+}
+
+.strategy-panel--master h2 {
+  max-width: 920px;
+  margin: 0;
+  font-size: clamp(35px, 5vw, 66px);
+  font-weight: 720;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  color: #f0f9ff;
+  text-wrap: balance;
+  text-shadow: 0 0 34px rgba(90, 215, 255, 0.25);
+}
+
+.strategy-panel--master > p {
+  max-width: 760px;
+  margin: clamp(20px, 2.5vw, 31px) 0 0;
+  font-size: clamp(17px, 1.75vw, 22px);
+  line-height: 1.55;
+  color: #a9cbe5;
+}
+
+.strategy-panel--1a { width: 92%; }
+.strategy-panel--1b { width: 82%; }
+.strategy-panel--1c { width: 78%; }
+.strategy-panel--1d { width: 93%; }
+.strategy-panel--2a { width: 90%; }
+
+.strategy-panel__questions,
+.strategy-panel__declaration {
+  display: grid;
+  gap: 0.68em;
+  margin: 0.35em 0;
+}
+
+.strategy-panel__questions p {
+  padding-left: 18px;
+  border-left: 2px solid rgba(91, 214, 255, 0.55);
+  font-size: clamp(18px, 1.62vw, 21px);
+  font-weight: 560;
+  line-height: 1.48;
+  color: #e4f5ff;
+}
+
+.strategy-pillar h3 {
+  font-size: clamp(24px, 2.7vw, 36px);
+  letter-spacing: 0.14em;
+  color: #c7f2ff;
+  text-shadow: 0 0 22px rgba(76, 211, 255, 0.28);
+}
+
+.strategy-pillar--connect { width: 91%; }
+.strategy-pillar--understand { width: 80%; }
+.strategy-pillar--care { width: 89%; }
+.strategy-pillar--live { width: 77%; }
+.strategy-pillar--trust { width: 92%; }
+
+.strategy-panel--elisa {
+  width: 94%;
+  margin-top: clamp(12px, 2vw, 26px);
+  background:
+    radial-gradient(circle at 86% 19%, rgba(88, 187, 255, 0.15), transparent 36%),
+    linear-gradient(145deg, rgba(18, 45, 83, 0.62), rgba(5, 15, 34, 0.86) 61%, rgba(2, 7, 18, 0.94));
+}
+
+.strategy-panel--elisa .strategy-panel__body { max-width: 66ch; }
+
+.strategy-panel__emphasis {
+  margin-top: 0.34em !important;
+  font-size: clamp(24px, 2.6vw, 35px);
+  font-weight: 700;
+  line-height: 1.3;
+  color: #c8f3ff;
+  text-shadow: 0 0 24px rgba(67, 211, 255, 0.32);
+}
+
+.strategy-panel--longitudinal { width: 82%; }
+.strategy-panel--bridge-intro { width: 93%; }
+.strategy-pathway--a { width: 81%; }
+.strategy-pathway--b { width: 74%; }
+.strategy-pathway--c { width: 87%; }
+.strategy-pathway--d { width: 71%; }
+.strategy-pathway--e { width: 89%; }
+.strategy-panel--bridge-close { width: 79%; }
+.strategy-panel--4a { width: 92%; }
+.strategy-panel--4b { width: 81%; }
+.strategy-panel--4c { width: 90%; }
+.strategy-panel--4d { width: 93%; }
+.strategy-panel--4e { width: 96%; }
+.strategy-panel--4f { width: 84%; }
+
+.strategy-panel__declaration p {
+  font-size: clamp(18px, 1.6vw, 21px);
+  font-weight: 580;
+  line-height: 1.48;
+  color: #e3f5ff;
+}
+
+.strategy-panel--4f {
+  border-color: rgba(132, 222, 255, 0.4);
+  background:
+    radial-gradient(circle at 76% 12%, rgba(44, 165, 255, 0.2), transparent 37%),
+    linear-gradient(151deg, rgba(15, 47, 88, 0.68), rgba(4, 14, 33, 0.9) 62%, rgba(1, 6, 16, 0.96));
+}
+
+.strategy-panel__final-question {
+  margin-top: 0.45em !important;
+  font-size: clamp(25px, 3vw, 40px);
+  font-weight: 720;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #eafaff;
+  text-wrap: balance;
+  text-shadow:
+    0 0 26px rgba(89, 219, 255, 0.35),
+    0 0 56px rgba(0, 131, 255, 0.2);
+}
+
+.strategy-panel__signature {
+  display: grid;
+  gap: 0.25em;
+  margin-top: clamp(24px, 3vw, 38px);
+  padding-top: 20px;
+  border-top: 1px solid rgba(112, 200, 255, 0.2);
+  color: #cce6f6;
+}
+
+.strategy-panel__signature p:first-child {
+  font-size: 20px;
+  font-weight: 700;
+  color: #eefaff;
+}
+
+.strategy-panel__signature p:last-child {
+  margin-top: 0.3em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #bcefff;
+}
+
+.strategy-sources {
+  width: min(78%, 860px);
+  /* +24px breathing room after Final Strategic Question (micro-adjustment) */
+  margin: 24px auto 0;
+  padding: clamp(24px, 2.7vw, 34px) clamp(22px, 2.5vw, 30px);
+  border-top: 1px solid rgba(120, 190, 235, 0.28);
+  border-bottom: 1px solid rgba(99, 177, 230, 0.16);
+  border-radius: 0;
+  color: #b7cfe0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 22, 42, 0.22) 0%,
+    rgba(4, 12, 24, 0.08) 100%
+  );
+}
+
+.strategy-sources h2 {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #c5e7f6;
+}
+
+.strategy-sources ul {
+  display: grid;
+  gap: 0.78em;
+  margin: 0;
+  padding-left: 1.25em;
+  font-size: 15px;
+  line-height: 1.68;
+  color: #b7cfe0;
+}
+
+@media (max-width: 1024px) and (min-width: 901px) {
+  .albania-strategy { margin-top: -30px; }
+  .strategy-panel--1b,
+  .strategy-panel--longitudinal,
+  .strategy-panel--4b,
+  .strategy-panel--4f { width: 84%; }
+  .strategy-pillar--understand,
+  .strategy-pillar--live { width: 82%; }
+}
+
+@media (max-width: 900px) {
+  .albania-strategy {
+    margin-top: -30px;
+    padding-bottom: 84px;
+  }
+
+  .albania-strategy__inner { gap: 58px; }
+  .albania-strategy__section,
+  .strategy-pillars,
+  .strategy-pathways { gap: 30px; }
+
+  .strategy-panel--master,
+  .strategy-panel--1a,
+  .strategy-panel--1b,
+  .strategy-panel--1c,
+  .strategy-panel--1d,
+  .strategy-panel--2a,
+  .strategy-pillar--connect,
+  .strategy-pillar--understand,
+  .strategy-pillar--care,
+  .strategy-pillar--live,
+  .strategy-pillar--trust,
+  .strategy-panel--elisa,
+  .strategy-panel--longitudinal,
+  .strategy-panel--bridge-intro,
+  .strategy-pathway--a,
+  .strategy-pathway--b,
+  .strategy-pathway--c,
+  .strategy-pathway--d,
+  .strategy-pathway--e,
+  .strategy-panel--bridge-close,
+  .strategy-panel--4a,
+  .strategy-panel--4b,
+  .strategy-panel--4c,
+  .strategy-panel--4d,
+  .strategy-panel--4e,
+  .strategy-panel--4f {
+    width: 98%;
+  }
+
+  .strategy-panel--right { margin-left: 2%; }
+  .strategy-panel--left { margin-right: 2%; }
+  .strategy-panel--balanced { width: 96%; }
+  .strategy-sources { width: 92%; }
+}
+
+@media (max-width: 480px) {
+  .albania-strategy {
+    margin-top: -32px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .albania-strategy__inner { gap: 52px; }
+  .albania-strategy__section,
+  .strategy-pillars,
+  .strategy-pathways { gap: 27px; }
+
+  .albania-strategy__section-title {
+    width: 100%;
+    font-size: clamp(24px, 7.2vw, 31px);
+  }
+
+  .strategy-panel {
+    width: 100%;
+    padding: 24px 19px 27px;
+  }
+
+  .strategy-panel--right {
+    width: 97%;
+    margin-left: 3%;
+  }
+
+  .strategy-panel--left { margin-right: 0; }
+  .strategy-panel--master { padding: 32px 21px 36px; }
+  .strategy-panel--master h2 { font-size: clamp(31px, 9.2vw, 42px); }
+  .strategy-panel__body { line-height: 1.64; }
+  .strategy-panel__questions p { padding-left: 14px; }
+  .strategy-sources { width: 100%; padding-right: 8px; padding-left: 8px; }
 }
 
 /* ---------- Motion ---------- */
