@@ -186,9 +186,10 @@
     setSlide(keyFromHash(location.hash) || "menu", { updateHash: false });
   };
 
+  // In-deck navigation updates slide state + history only.
+  // Never scrollIntoView here — that jumps the whole page while changing slides.
   const goTo = (key) => {
     setSlide(key);
-    deckRoot.scrollIntoView({ block: "start", behavior: "auto" });
   };
 
   // Event delegation: rail MENU / 01–11 remain clickable even if nodes are reflowed.
@@ -217,6 +218,8 @@
     });
   }
 
+  // Hash / history restore deck state. pushState slide changes do not fire hashchange,
+  // so in-deck navigation does not re-trigger native section scrolling.
   window.addEventListener("hashchange", showFromHash);
   window.addEventListener("popstate", showFromHash);
 

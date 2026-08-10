@@ -41,21 +41,8 @@ html {
   );
 }
 
-#overview,
-#elisence,
-#albania,
-#collaboration,
-#documents,
-#strategic-brief,
-#eit-pitch,
-#evidence,
-#private-briefing,
-.founder-note,
-.frag-section.manifesto,
-.albania-manifesto,
-.albania-strategy {
-  scroll-margin-top: var(--albania-sticky-nav-clearance);
-}
+/* Sticky clearance for hash targets is owned solely by html scroll-padding-top.
+   Do not also set scroll-margin-top here — both apply and double the blank gap. */
 
 .site-header__inner {
   max-width: 1420px;
@@ -637,7 +624,6 @@ html {
 
 .founder-note {
   position: relative;
-  scroll-margin-top: var(--albania-sticky-nav-clearance);
   padding: 0 var(--page-pad-x) 0;
 }
 
@@ -846,13 +832,11 @@ html {
 .frag-section.manifesto,
 .albania-manifesto {
   position: relative;
-  scroll-margin-top: var(--albania-sticky-nav-clearance);
   padding: 44px var(--page-pad-x) clamp(72px, 9vh, 120px);
 }
 
 .frag-section {
   position: relative;
-  scroll-margin-top: var(--albania-sticky-nav-clearance);
   padding: 44px var(--page-pad-x) clamp(72px, 9vh, 120px);
 }
 
@@ -1116,7 +1100,6 @@ html {
 
 .albania-strategy {
   position: relative;
-  scroll-margin-top: var(--albania-sticky-nav-clearance);
   margin-top: calc(-1 * clamp(30px, 5vh, 72px));
   padding: 0 var(--page-pad-x) clamp(88px, 11vh, 144px);
 }
@@ -1896,7 +1879,6 @@ html {
   margin: 0 auto;
   margin-top: clamp(48px, 7vw, 96px);
   padding: 0 0 clamp(72px, 10vw, 120px);
-  scroll-margin-top: var(--albania-sticky-nav-clearance);
 }
 
 .albania-collab__inner {
@@ -2716,7 +2698,6 @@ html {
   margin: 0 auto;
   margin-top: clamp(48px, 7vw, 96px);
   padding: 0 0 clamp(72px, 10vw, 120px);
-  scroll-margin-top: var(--albania-sticky-nav-clearance);
 }
 
 .albania-sbrief__inner {
@@ -3245,7 +3226,6 @@ html {
   margin: 0 auto;
   margin-top: clamp(40px, 6vw, 80px);
   padding: 0 0 clamp(64px, 9vw, 110px);
-  scroll-margin-top: var(--albania-sticky-nav-clearance);
 }
 
 .albania-deck__hash {
