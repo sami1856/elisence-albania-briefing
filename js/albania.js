@@ -117,3 +117,108 @@
     revealNodes.forEach((node) => node.classList.add("is-visible"));
   }
 })();
+
+(() => {
+  // Interactive EIT Pitch Deck (approved slide images + HTML controls)
+  const deckRoot = document.querySelector("[data-deck]");
+  if (!deckRoot) return;
+
+  const order = ["menu", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"];
+  const figures = Array.from(deckRoot.querySelectorAll("[data-deck-slide]"));
+  const gotoButtons = Array.from(deckRoot.querySelectorAll("[data-deck-goto]"));
+  const prevBtn = deckRoot.querySelector("[data-deck-prev]");
+  const nextBtn = deckRoot.querySelector("[data-deck-next]");
+  const statusEl = deckRoot.querySelector("[data-deck-status]");
+  let current = "menu";
+
+  const labelFor = (key) => (key === "menu" ? "Menu" : `Slide ${key}`);
+  const hashFor = (key) => (key === "menu" ? "#eit-pitch" : `#eit-pitch-${key}`);
+
+  const keyFromHash = (hash) => {
+    if (!hash || hash === "#eit-pitch" || hash === "#eit-pitch-menu") return "menu";
+    const match = /^#eit-pitch-(\d{2})$/.exec(hash);
+    if (match && order.includes(match[1])) return match[1];
+    return null;
+  };
+
+  const setSlide = (key, { updateHash = true } = {}) => {
+    if (!order.includes(key)) return;
+    current = key;
+
+    figures.forEach((fig) => {
+      const active = fig.getAttribute("data-deck-slide") === key;
+      fig.classList.toggle("is-active", active);
+      if (active) fig.removeAttribute("hidden");
+      else fig.setAttribute("hidden", "");
+    });
+
+    gotoButtons.forEach((btn) => {
+      const active = btn.getAttribute("data-deck-goto") === key;
+      btn.classList.toggle("is-active", active);
+      btn.setAttribute("aria-current", active ? "true" : "false");
+    });
+
+    if (prevBtn) prevBtn.disabled = key === "menu";
+    if (nextBtn) {
+      nextBtn.disabled = false;
+      if (key === "11") {
+        nextBtn.textContent = "MENU";
+        nextBtn.setAttribute("aria-label", "Return to deck menu");
+      } else {
+        nextBtn.textContent = "NEXT";
+        nextBtn.setAttribute("aria-label", "Next slide");
+      }
+    }
+    if (statusEl) statusEl.textContent = labelFor(key);
+
+    if (updateHash) {
+      const nextHash = hashFor(key);
+      const menuAlias = key === "menu" && (location.hash === "#eit-pitch" || location.hash === "#eit-pitch-menu");
+      if (!menuAlias && location.hash !== nextHash) {
+        history.pushState({ deck: key }, "", nextHash);
+      }
+    }
+  };
+
+  const showFromHash = () => {
+    if (!location.hash.startsWith("#eit-pitch")) return;
+    setSlide(keyFromHash(location.hash) || "menu", { updateHash: false });
+  };
+
+  gotoButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      setSlide(btn.getAttribute("data-deck-goto"));
+      deckRoot.scrollIntoView({ block: "start", behavior: "auto" });
+    });
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      const idx = order.indexOf(current);
+      if (idx > 0) setSlide(order[idx - 1]);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      if (current === "11") {
+        setSlide("menu");
+        return;
+      }
+      const idx = order.indexOf(current);
+      if (idx >= 0 && idx < order.length - 1) setSlide(order[idx + 1]);
+    });
+  }
+
+  window.addEventListener("hashchange", showFromHash);
+  window.addEventListener("popstate", showFromHash);
+
+  if (location.hash.startsWith("#eit-pitch")) showFromHash();
+  else setSlide("menu", { updateHash: false });
+
+  document.querySelectorAll('a[href="#eit-pitch"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      setSlide("menu", { updateHash: false });
+    });
+  });
+})();
