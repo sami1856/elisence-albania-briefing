@@ -155,7 +155,8 @@
     gotoButtons.forEach((btn) => {
       const active = btn.getAttribute("data-deck-goto") === key;
       btn.classList.toggle("is-active", active);
-      btn.setAttribute("aria-current", active ? "true" : "false");
+      if (active) btn.setAttribute("aria-current", "true");
+      else btn.removeAttribute("aria-current");
     });
 
     if (prevBtn) prevBtn.disabled = key === "menu";
@@ -185,28 +186,34 @@
     setSlide(keyFromHash(location.hash) || "menu", { updateHash: false });
   };
 
-  gotoButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      setSlide(btn.getAttribute("data-deck-goto"));
-      deckRoot.scrollIntoView({ block: "start", behavior: "auto" });
-    });
+  const goTo = (key) => {
+    setSlide(key);
+    deckRoot.scrollIntoView({ block: "start", behavior: "auto" });
+  };
+
+  // Event delegation: rail MENU / 01–11 remain clickable even if nodes are reflowed.
+  deckRoot.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target.closest("[data-deck-goto]") : null;
+    if (!target || !deckRoot.contains(target)) return;
+    event.preventDefault();
+    goTo(target.getAttribute("data-deck-goto"));
   });
 
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
       const idx = order.indexOf(current);
-      if (idx > 0) setSlide(order[idx - 1]);
+      if (idx > 0) goTo(order[idx - 1]);
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
       if (current === "11") {
-        setSlide("menu");
+        goTo("menu");
         return;
       }
       const idx = order.indexOf(current);
-      if (idx >= 0 && idx < order.length - 1) setSlide(order[idx + 1]);
+      if (idx >= 0 && idx < order.length - 1) goTo(order[idx + 1]);
     });
   }
 
